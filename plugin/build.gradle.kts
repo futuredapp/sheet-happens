@@ -8,14 +8,23 @@ version = "0.0.1"
 
 gradlePlugin {
     website = "https://github.com/futuredapp/sheet-happens"
-    vcsUrl = "git@github.com:futuredapp/sheet-happens.git"
+    vcsUrl = "https://github.com/futuredapp/sheet-happens"
 
     plugins {
         create("sheetHappensPlugin") {
             id = "app.futured.sheethappens"
             displayName = "Sheet Happens"
-            description = "Gradle plugin for generating Android / KMP string translations generates from Google Sheets"
-            implementationClass = "app.futured.sheethappens.SheetHappensPlugin"
+            description = "Gradle plugin for generating Android / KMP string translations from Google Spreadsheets"
+            implementationClass = "app.futured.sheethappens.plugin.SheetHappensPlugin"
         }
     }
+}
+
+dependencies {
+    implementation(kotlin("stdlib"))
+    implementation(gradleApi())
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
