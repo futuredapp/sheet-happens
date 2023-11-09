@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.gradle.pluginPublish)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "app.futured.sheethappens"
-version = "0.0.1"
+version = "0.0.3"
 
 gradlePlugin {
     website = "https://github.com/futuredapp/sheet-happens"
@@ -23,6 +24,7 @@ gradlePlugin {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
+    implementation(libs.kotlinx.serialization.json)
 }
 
 tasks.test {

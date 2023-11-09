@@ -12,7 +12,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "sheethappens"
+rootProject.name = "sheet-happens"
 
 include(":plugin")
 include(":sample")
