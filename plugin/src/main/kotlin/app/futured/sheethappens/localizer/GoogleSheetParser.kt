@@ -59,7 +59,7 @@ internal object GoogleSheetParser {
             .mapNotNull { row ->
                 val section = row[sectionColumn]
                 if (!section.isNullOrBlank()) {
-                    return@mapNotNull SheetEntry.Section(title = section)
+                    return@mapNotNull SheetEntry.Section(comment = section)
                 }
 
                 val key = row[keyColumn] ?: return@mapNotNull null

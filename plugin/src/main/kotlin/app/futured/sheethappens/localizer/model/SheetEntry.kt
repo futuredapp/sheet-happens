@@ -1,7 +1,7 @@
 package app.futured.sheethappens.localizer.model
 
 internal sealed interface SheetEntry {
-    data class Section(val title: String) : SheetEntry
+    data class Section(val comment: String) : SheetEntry
     data class Translation(val resources: List<Resource>) : SheetEntry
 }
 

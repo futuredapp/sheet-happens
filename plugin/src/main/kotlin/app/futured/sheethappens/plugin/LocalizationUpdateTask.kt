@@ -1,13 +1,16 @@
 package app.futured.sheethappens.plugin
 
 import app.futured.sheethappens.localizer.GoogleSheetParser
+import app.futured.sheethappens.localizer.ResourcesSerializer
 import app.futured.sheethappens.localizer.SheetLayout
 import app.futured.sheethappens.localizer.api.GoogleSpreadsheetsApi
+import app.futured.sheethappens.localizer.model.Locale
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import java.io.ByteArrayOutputStream
 
 abstract class LocalizationUpdateTask : DefaultTask() {
 
@@ -32,6 +35,9 @@ abstract class LocalizationUpdateTask : DefaultTask() {
         val response = GoogleSpreadsheetsApi().download(spreadsheetId.get(), sheetName.get(), apiKey.get())
         val sheetEntries = GoogleSheetParser.parse(response, SheetLayout())
 
-        println(sheetEntries.joinToString("\n"))
+        val outputStream = ByteArrayOutputStream()
+        ResourcesSerializer.serialize(sheetEntries, Locale("CZ", "cs"), outputStream)
+
+        println(outputStream.toString(Charsets.UTF_8))
     }
 }
