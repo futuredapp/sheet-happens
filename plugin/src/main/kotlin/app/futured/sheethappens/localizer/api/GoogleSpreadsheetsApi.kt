@@ -1,5 +1,6 @@
-package app.futured.sheethappens.localizer
+package app.futured.sheethappens.localizer.api
 
+import app.futured.sheethappens.localizer.model.SpreadsheetResponse
 import kotlinx.serialization.json.Json
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -26,4 +27,3 @@ internal class GoogleSpreadsheetsApi {
         return Json.decodeFromString(response)
     }
 }
-

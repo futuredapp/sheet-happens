@@ -1,6 +1,8 @@
 package app.futured.sheethappens.plugin
 
-import app.futured.sheethappens.localizer.GoogleSpreadsheetsApi
+import app.futured.sheethappens.localizer.GoogleSheetParser
+import app.futured.sheethappens.localizer.SheetLayout
+import app.futured.sheethappens.localizer.api.GoogleSpreadsheetsApi
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -28,6 +30,8 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @TaskAction
     fun execute() {
         val response = GoogleSpreadsheetsApi().download(spreadsheetId.get(), sheetName.get(), apiKey.get())
-        println(response)
+        val sheetEntries = GoogleSheetParser.parse(response, SheetLayout())
+
+        println(sheetEntries.joinToString("\n"))
     }
 }
