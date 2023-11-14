@@ -4,7 +4,7 @@ val localProperties = Properties().apply { load(rootProject.file("local.properti
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    id("app.futured.sheethappens") version "0.0.6"
+    id("app.futured.sheethappens") version "0.0.7"
 }
 
 sheetHappens {
