@@ -3,17 +3,18 @@ package app.futured.sheethappens.plugin
 import app.futured.sheethappens.localizer.GoogleSheetParser
 import app.futured.sheethappens.localizer.ResourcesSerializer
 import app.futured.sheethappens.localizer.api.GoogleSpreadsheetsApi
-import app.futured.sheethappens.localizer.model.Locale
+import app.futured.sheethappens.localizer.model.SheetEntry
 import app.futured.sheethappens.plugin.configuration.LanguageMapping
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
-import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
-import java.io.ByteArrayOutputStream
+import java.nio.file.Files
 
 abstract class LocalizationUpdateTask : DefaultTask() {
 
@@ -45,6 +46,13 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     )
     abstract val languageMapping: ListProperty<LanguageMapping>
 
+    @get:InputDirectory
+    @get:Option(
+        option = "resourcesFolder",
+        description = "Folder where to generate resources"
+    )
+    abstract val resourcesFolder: DirectoryProperty
+
     init {
         group = "localization"
     }
@@ -63,9 +71,25 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             languageMapping = languageMapping.get()
         )
 
-        val outputStream = ByteArrayOutputStream()
-        ResourcesSerializer.serialize(sheetEntries, Locale("CZ", "cs"), outputStream)
+        val detectedLocales = sheetEntries
+            .filterIsInstance<SheetEntry.Translation>()
+            .flatMap { it.resources.map { resource -> resource.locale } }
+            .distinct()
 
-        println(outputStream.toString(Charsets.UTF_8))
+        for (locale in detectedLocales) {
+            val targetDir = when(val resourceQualifier = locale.resourceQualifier) {
+                null -> resourcesFolder.dir("values")
+                else -> resourcesFolder.dir("values-$resourceQualifier")
+            }
+
+            Files.createDirectories(targetDir.get().asFile.toPath())
+            val stringsFile = targetDir.map { directory -> directory.file("strings.xml") }.get().asFile
+            if (stringsFile.exists()) {
+                stringsFile.delete()
+            }
+            stringsFile.createNewFile()
+
+            ResourcesSerializer.serialize(sheetEntries, locale, stringsFile.outputStream())
+        }
     }
 }

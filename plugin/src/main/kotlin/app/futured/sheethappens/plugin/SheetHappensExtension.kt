@@ -3,6 +3,7 @@ package app.futured.sheethappens.plugin
 import app.futured.sheethappens.plugin.configuration.LanguageMapping
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -41,14 +42,27 @@ open class SheetHappensExtension @Inject constructor(objects: ObjectFactory) {
     /**
      * Used to configure layout of the Sheet which contains translations.
      */
-    val sheetLayout: SheetLayoutHandler = objects.newInstance(SheetLayoutHandler::class.java)
+    internal val sheetLayout: SheetLayoutHandler = objects.newInstance(SheetLayoutHandler::class.java)
+
+    /**
+     * Used to configure a layout of generated resource files.
+     */
+    internal val resourcesLayout: ResourcesLayoutHandler = objects.newInstance(ResourcesLayoutHandler::class.java)
 
     /**
      * Used to configure layout of the Sheet which contains translations.
      */
     fun sheetLayout(action: Action<SheetLayoutHandler>) = action.execute(sheetLayout)
+
+    /**
+     * Used to configure a layout of generated resource files.
+     */
+    fun resourcesLayout(action: Action<ResourcesLayoutHandler>) = action.execute(resourcesLayout)
 }
 
+/**
+ * An object container which defines the layout of provided Google Sheet, such as where to look for string keys, etc.
+ */
 open class SheetLayoutHandler @Inject constructor(objects: ObjectFactory) {
 
     /**
@@ -74,4 +88,15 @@ open class SheetLayoutHandler @Inject constructor(objects: ObjectFactory) {
     fun languageMapping(mapping: Pair<String, String?>) {
         languageMappings.set(languageMappings.get() + LanguageMapping(mapping.first, mapping.second))
     }
+}
+
+/**
+ * An object container which defines a layout of generated string resources, such as resource folder path, etc.
+ */
+open class ResourcesLayoutHandler @Inject constructor(objects: ObjectFactory) {
+
+    /**
+     * Folder where to put generated resources relative to [Project], such as "src/main/res"
+     */
+    val resourcesFolder: DirectoryProperty = objects.directoryProperty()
 }

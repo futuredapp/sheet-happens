@@ -17,6 +17,7 @@ open class SheetHappensPlugin : Plugin<Project> {
             task.sectionColumnName.set(extension.sheetLayout.sectionColumnName)
             task.keyColumnName.set(extension.sheetLayout.keyColumnName)
             task.languageMapping.set(extension.sheetLayout.languageMappings)
+            task.resourcesFolder.set(extension.resourcesLayout.resourcesFolder)
         }
     }
 }
