@@ -62,20 +62,22 @@ internal object SheetEntryAccumulator {
                             )
                         )
                     }
+                }
+            }
 
-                    if (nextSheetEntry !is SheetEntry.PluralResource) {
-                        // Finish accumulation because next element is not plural, or is end of list
-                        xmlEntries += pluralAccumulator
-                        pluralAccumulator = null
-                        continue
-                    }
+            if (pluralAccumulator != null) {
+                if (nextSheetEntry !is SheetEntry.PluralResource) {
+                    // Finish accumulation because next element is not plural, or is end of list
+                    xmlEntries += pluralAccumulator
+                    pluralAccumulator = null
+                    continue
+                }
 
-                    if (nextSheetEntry.items[locale]?.key != pluralAccumulator.key) {
-                        // Finish accumulation because next element is plural but with different key
-                        xmlEntries += pluralAccumulator
-                        pluralAccumulator = null
-                        continue
-                    }
+                if (nextSheetEntry.items[locale]?.key != pluralAccumulator.key) {
+                    // Finish accumulation because next element is plural but with different key
+                    xmlEntries += pluralAccumulator
+                    pluralAccumulator = null
+                    continue
                 }
             }
         }
