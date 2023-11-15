@@ -4,7 +4,7 @@ val localProperties = Properties().apply { load(rootProject.file("local.properti
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    id("app.futured.sheethappens") version "0.2.0"
+    id("app.futured.sheethappens") version "0.3.0"
 }
 
 // Preventivka
@@ -40,5 +40,7 @@ sheetHappens {
 
     resourcesLayout {
         resourcesDir = layout.projectDirectory.dir("src/main/res")
+        stringsFileName = "strings_synced"
+        pluralsFileName = "plurals_synced"
     }
 }

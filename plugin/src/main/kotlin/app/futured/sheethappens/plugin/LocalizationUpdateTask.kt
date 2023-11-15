@@ -56,20 +56,42 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     )
     abstract val resourcesDir: DirectoryProperty
 
+    @get:Input
+    @get:Option(
+        option = "stringsFileName",
+        description = "Name of file where string resources will be generated"
+    )
+    @get:Optional
+    abstract val stringsFileName: Property<String>
+
+    @get:Input
+    @get:Option(
+        option = "pluralsFileName",
+        description = "Name of file where plural resources will be generated"
+    )
+    @get:Optional
+    abstract val pluralsFileName: Property<String>
+
     init {
         group = "localization"
     }
 
     @TaskAction
     fun execute() {
-        val response = GoogleSpreadsheetsApi().download(
+        val sectionColumnName = sectionColumnName.getOrElse("section")
+        val stringsFileName = stringsFileName.getOrElse("strings")
+            .substringBefore(".xml").plus(".xml")
+        val pluralsFileName = pluralsFileName.getOrElse("plurals")
+            .substringBefore(".xml").plus(".xml")
+
+        val apiResponse = GoogleSpreadsheetsApi().download(
             spreadsheetId = spreadsheetId.get(),
             sheetName = sheetName.get(),
             apiKey = apiKey.get()
         )
         val sheetEntries = GoogleSheetParser.parse(
-            response = response,
-            sectionColumn = sectionColumnName.orNull,
+            response = apiResponse,
+            sectionColumn = sectionColumnName,
             keyColumn = keyColumnName.get(),
             languageMapping = languageMapping.get()
         )
@@ -82,8 +104,8 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             val localeSubdirectory = resourcesDir.dir(locale.subdirectory)
 
             Files.createDirectories(localeSubdirectory.get().asFile.toPath())
-            val stringsFile = localeSubdirectory.map { directory -> directory.file("strings.xml") }.get().asFile
-            val pluralsFile = localeSubdirectory.map { dir -> dir.file("plurals.xml") }.get().asFile
+            val stringsFile = localeSubdirectory.map { directory -> directory.file(stringsFileName) }.get().asFile
+            val pluralsFile = localeSubdirectory.map { dir -> dir.file(pluralsFileName) }.get().asFile
 
             val xmlElements = SheetEntryAccumulator.accumulateToXmlElements(sheetEntries, locale)
 

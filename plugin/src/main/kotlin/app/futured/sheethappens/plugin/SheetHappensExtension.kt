@@ -19,9 +19,7 @@ open class SheetHappensExtension @Inject constructor(objects: ObjectFactory) {
             project.extensions.create(/* name = */ "sheetHappens",/* type = */
                 SheetHappensExtension::class.java,/* ...constructionArguments = */
                 project.objects
-            ).apply {
-                sheetLayout.sectionColumnName.convention("section")
-            }
+            )
     }
 
     /**
@@ -99,4 +97,14 @@ open class ResourcesLayoutHandler @Inject constructor(objects: ObjectFactory) {
      * Folder where to put generated resources relative to [Project], such as "src/main/res"
      */
     val resourcesDir: DirectoryProperty = objects.directoryProperty()
+
+    /**
+     * Name of file where string resources will be generated.
+     */
+    val stringsFileName: Property<String> = objects.property(String::class.java)
+
+    /**
+     * Name of file where plural resources will be generated.
+     */
+    val pluralsFileName: Property<String> = objects.property(String::class.java)
 }

@@ -18,6 +18,8 @@ open class SheetHappensPlugin : Plugin<Project> {
             task.keyColumnName.set(extension.sheetLayout.keyColumnName)
             task.languageMapping.set(extension.sheetLayout.languageMappings)
             task.resourcesDir.set(extension.resourcesLayout.resourcesDir)
+            task.stringsFileName.set(extension.resourcesLayout.stringsFileName)
+            task.pluralsFileName.set(extension.resourcesLayout.pluralsFileName)
         }
     }
 }
