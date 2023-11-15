@@ -15,5 +15,3 @@ internal operator fun TableRow.get(column: TableColumn?): String? = column?.let 
 internal fun String.isPluralKey() = contains("##")
 internal fun String.pluralKeyModifier() = substringAfter("{").replace("}", "").trim()
 internal fun String.pluralKeyValue() = substringBefore("##")
-
-internal data class Locale(val columnName: String, val resourceQualifier: String?)

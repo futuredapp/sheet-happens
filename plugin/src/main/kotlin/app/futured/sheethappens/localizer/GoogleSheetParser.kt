@@ -66,28 +66,34 @@ internal object GoogleSheetParser {
 
                 val key = row[keyColumn].takeIf { !it.isNullOrBlank() } ?: return@mapNotNull null
 
-                return@mapNotNull SheetEntry.Translation(
-                    resources = translationColumns.mapNotNull resource@{ translationColumn ->
-                        val translation = row[translationColumn]
-                        if (translation.isNullOrBlank()) {
-                            return@resource null
-                        }
-                        if (key.isPluralKey()) {
-                            Resource.Plural(
-                                key = key.pluralKeyValue(),
-                                value = translation,
-                                locale = translationColumn.locale,
-                                modifier = key.pluralKeyModifier()
-                            )
-                        } else {
-                            Resource.Plain(
-                                key = key,
-                                value = translation,
-                                locale = translationColumn.locale
-                            )
-                        }
-                    }
-                )
+                if (key.isPluralKey()) {
+                    return@mapNotNull SheetEntry.PluralResource(
+                        items = translationColumns
+                            .map { column ->
+                                val columnValue = row[column] ?: return@map null
+                                column.locale to SheetEntry.PluralResource.Item(
+                                    key = key.pluralKeyValue(),
+                                    quantityModifier = key.pluralKeyModifier(),
+                                    value = columnValue
+                                )
+                            }
+                            .filterNotNull()
+                            .toMap()
+                    )
+                } else {
+                    return@mapNotNull SheetEntry.PlainResource(
+                        items = translationColumns
+                            .map { column ->
+                                val columnValue = row[column] ?: return@map null
+                                column.locale to SheetEntry.PlainResource.Item(
+                                    key = key,
+                                    value = columnValue
+                                )
+                            }
+                            .filterNotNull()
+                            .toMap()
+                    )
+                }
             }
     }
 }

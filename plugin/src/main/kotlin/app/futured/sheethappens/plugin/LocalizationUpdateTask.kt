@@ -2,8 +2,10 @@ package app.futured.sheethappens.plugin
 
 import app.futured.sheethappens.localizer.GoogleSheetParser
 import app.futured.sheethappens.localizer.ResourcesSerializer
+import app.futured.sheethappens.localizer.SheetEntryAccumulator
 import app.futured.sheethappens.localizer.api.GoogleSpreadsheetsApi
 import app.futured.sheethappens.localizer.model.SheetEntry
+import app.futured.sheethappens.localizer.model.XmlElement
 import app.futured.sheethappens.plugin.configuration.LanguageMapping
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
@@ -14,6 +16,7 @@ import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import java.io.File
 import java.nio.file.Files
 
 abstract class LocalizationUpdateTask : DefaultTask() {
@@ -70,26 +73,45 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             keyColumn = keyColumnName.get(),
             languageMapping = languageMapping.get()
         )
-
         val detectedLocales = sheetEntries
             .filterIsInstance<SheetEntry.Translation>()
-            .flatMap { it.resources.map { resource -> resource.locale } }
+            .flatMap { it.locales }
             .distinct()
 
-        for (locale in detectedLocales) {
-            val targetDir = when(val resourceQualifier = locale.resourceQualifier) {
+        detectedLocales.forEach { locale ->
+            val targetDir = when (val resourceQualifier = locale.resourceQualifier) {
                 null -> resourcesFolder.dir("values")
                 else -> resourcesFolder.dir("values-$resourceQualifier")
             }
 
             Files.createDirectories(targetDir.get().asFile.toPath())
             val stringsFile = targetDir.map { directory -> directory.file("strings.xml") }.get().asFile
-            if (stringsFile.exists()) {
-                stringsFile.delete()
-            }
-            stringsFile.createNewFile()
+            val pluralsFile = targetDir.map { dir -> dir.file("plurals.xml") }.get().asFile
 
-            ResourcesSerializer.serialize(sheetEntries, locale, stringsFile.outputStream())
+            val xmlElements = SheetEntryAccumulator.accumulateToXmlElements(sheetEntries, locale)
+
+            if (xmlElements.any { it is XmlElement.PlainResource }) {
+                stringsFile.recreate()
+                ResourcesSerializer.serialize(
+                    xmlElements = xmlElements.filterIsInstance<XmlElement.PlainResource>(),
+                    outputStream = stringsFile.outputStream()
+                )
+            }
+
+            if (xmlElements.any { it is XmlElement.PluralResource }) {
+                pluralsFile.recreate()
+                ResourcesSerializer.serialize(
+                    xmlElements = xmlElements.filterIsInstance<XmlElement.PluralResource>(),
+                    outputStream = pluralsFile.outputStream()
+                )
+            }
         }
     }
+}
+
+private fun File.recreate() {
+    if (exists()) {
+        delete()
+    }
+    createNewFile()
 }

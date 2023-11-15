@@ -1,31 +1,39 @@
 package app.futured.sheethappens.localizer
 
-import app.futured.sheethappens.localizer.model.Locale
-import app.futured.sheethappens.localizer.model.Resource
-import app.futured.sheethappens.localizer.model.SheetEntry
+import app.futured.sheethappens.localizer.model.XmlElement
 import java.io.OutputStream
 
+/**
+ * Object responsible for writing XML element models into XML file.
+ */
 internal object ResourcesSerializer {
 
+    /**
+     * Serializes [xmlElements] into provided [outputStream][OutputStream] in XML format.
+     */
     fun serialize(
-        entries: List<SheetEntry>,
-        locale: Locale,
+        xmlElements: List<XmlElement>,
         outputStream: OutputStream
     ) {
         XmlWriter(outputStream).document {
-            entries.forEach { entry ->
-                when (entry) {
-                    is SheetEntry.Section -> writeComment(entry.comment)
-                    is SheetEntry.Translation -> {
-                        entry
-                            .resources
-                            .filter { it.locale == locale }
-                            .forEach { resource ->
-                                when (resource) {
-                                    is Resource.Plain -> writeStringResource(resource.key, resource.value.sanitize())
-                                    is Resource.Plural -> Unit // TODO plurals
-                                }
+            xmlElements.forEach { xmlElement ->
+                when (xmlElement) {
+                    is XmlElement.PlainResource -> {
+                        xmlElement.comments.forEach { comment ->
+                            writeComment(comment)
+                        }
+                        writeStringResource(xmlElement.key, xmlElement.value.sanitize())
+                    }
+
+                    is XmlElement.PluralResource -> {
+                        xmlElement.comments.forEach { comment ->
+                            writeComment(comment)
+                        }
+                        writePluralResource(xmlElement.key) {
+                            xmlElement.items.forEach { pluralItem ->
+                                writePluralResourceItem(pluralItem.quantityModifier, pluralItem.value.sanitize())
                             }
+                        }
                     }
                 }
             }
@@ -33,6 +41,9 @@ internal object ResourcesSerializer {
     }
 }
 
+/**
+ * Sanitizes [String] into XML-friendly format.
+ */
 private fun String.sanitize() =
     this
         .replace("'", "\\'")

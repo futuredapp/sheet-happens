@@ -4,9 +4,10 @@ val localProperties = Properties().apply { load(rootProject.file("local.properti
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    id("app.futured.sheethappens") version "0.0.7"
+    id("app.futured.sheethappens") version "0.1.0"
 }
 
+// Preventivka
 sheetHappens {
     spreadsheetId = "1TGTHG0a2HqfGh7VD5_8wh0F7Cljt0HFwaPQTDmAJ8wk"
     sheetName = "Sheet1"
@@ -17,6 +18,10 @@ sheetHappens {
         keyColumnName = "key"
         languageMapping("EN" to null)
         languageMapping("CZ" to "cs")
+    }
+
+    resourcesLayout {
+        resourcesFolder = layout.projectDirectory.dir("src/commonMain/resources/MR/")
     }
 }
 
@@ -31,5 +36,9 @@ sheetHappens {
 //        sectionColumnName = "Section"
 //        languageMapping("EN" to null)
 //        languageMapping("CZ" to "cs")
+//    }
+//
+//    resourcesLayout {
+//        resourcesFolder = layout.projectDirectory.dir("src/main/res")
 //    }
 //}
