@@ -3,12 +3,12 @@ package app.futured.sheethappens.plugin.configuration
 import java.io.Serializable
 
 /**
- * Represents language mapping of Sheet column to generated resource qualifier.
+ * Represents language mapping of Sheet column to directory in which resources will be generated.
  *
  * @param columnName Name of Sheet column
- * @param resourceQualifier Android resource qualifier, or `null` if no resource qualifier should be used for this language.
+ * @param subdirectory Resource subdirectory name, eg. "values", or "values-en".
  */
 data class LanguageMapping(
     val columnName: String,
-    val resourceQualifier: String?
+    val subdirectory: String
 ) : Serializable

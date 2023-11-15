@@ -45,16 +45,16 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @get:Input
     @get:Option(
         option = "languageMapping",
-        description = "Mapping of column names to resource qualifiers for each language in Google Sheet"
+        description = "Mapping of column names to subdirectories for each language in Google Sheet"
     )
     abstract val languageMapping: ListProperty<LanguageMapping>
 
     @get:InputDirectory
     @get:Option(
-        option = "resourcesFolder",
+        option = "resourcesDir",
         description = "Folder where to generate resources"
     )
-    abstract val resourcesFolder: DirectoryProperty
+    abstract val resourcesDir: DirectoryProperty
 
     init {
         group = "localization"
@@ -79,14 +79,11 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             .distinct()
 
         detectedLocales.forEach { locale ->
-            val targetDir = when (val resourceQualifier = locale.resourceQualifier) {
-                null -> resourcesFolder.dir("values")
-                else -> resourcesFolder.dir("values-$resourceQualifier")
-            }
+            val localeSubdirectory = resourcesDir.dir(locale.subdirectory)
 
-            Files.createDirectories(targetDir.get().asFile.toPath())
-            val stringsFile = targetDir.map { directory -> directory.file("strings.xml") }.get().asFile
-            val pluralsFile = targetDir.map { dir -> dir.file("plurals.xml") }.get().asFile
+            Files.createDirectories(localeSubdirectory.get().asFile.toPath())
+            val stringsFile = localeSubdirectory.map { directory -> directory.file("strings.xml") }.get().asFile
+            val pluralsFile = localeSubdirectory.map { dir -> dir.file("plurals.xml") }.get().asFile
 
             val xmlElements = SheetEntryAccumulator.accumulateToXmlElements(sheetEntries, locale)
 

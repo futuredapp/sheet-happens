@@ -43,7 +43,7 @@ internal object GoogleSheetParser {
                         val mapping = languageMapping.first { it.columnName == value }
                         TableColumn.Translation(
                             index = idx,
-                            locale = Locale(mapping.columnName, mapping.resourceQualifier)
+                            locale = Locale(mapping.columnName, mapping.subdirectory)
                         )
                     }
 

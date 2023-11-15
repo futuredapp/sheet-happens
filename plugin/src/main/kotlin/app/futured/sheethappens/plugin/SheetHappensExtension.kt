@@ -15,13 +15,13 @@ import javax.inject.Inject
 open class SheetHappensExtension @Inject constructor(objects: ObjectFactory) {
 
     companion object {
-        internal fun createFor(project: Project): SheetHappensExtension = project.extensions.create(
-            /* name = */ "sheetHappens",
-            /* type = */ SheetHappensExtension::class.java,
-            /* ...constructionArguments = */ project.objects
-        ).apply {
-            sheetLayout.sectionColumnName.convention("section")
-        }
+        internal fun createFor(project: Project): SheetHappensExtension =
+            project.extensions.create(/* name = */ "sheetHappens",/* type = */
+                SheetHappensExtension::class.java,/* ...constructionArguments = */
+                project.objects
+            ).apply {
+                sheetLayout.sectionColumnName.convention("section")
+            }
     }
 
     /**
@@ -78,14 +78,14 @@ open class SheetLayoutHandler @Inject constructor(objects: ObjectFactory) {
     /**
      * List of language mappings where column name to resource qualifier mapping can be specified.
      */
-    val languageMappings: ListProperty<LanguageMapping> = objects.listProperty(LanguageMapping::class.java)
+    internal val languageMappings: ListProperty<LanguageMapping> = objects.listProperty(LanguageMapping::class.java)
 
     /**
-     * Adds a column name to resource qualifier language mapping to configuration.
+     * Configures Google Sheet column name and resources subdirectory in which resources for this language will be generated.
      *
-     * @param mapping Pair of column name and optional resource qualifier.
+     * @param mapping Pair of column name and directory name, such as `"EN" to "values"`, or `"CZ" to "values-cs"`
      */
-    fun languageMapping(mapping: Pair<String, String?>) {
+    fun languageColumn(mapping: Pair<String, String>) {
         languageMappings.set(languageMappings.get() + LanguageMapping(mapping.first, mapping.second))
     }
 }
@@ -98,5 +98,5 @@ open class ResourcesLayoutHandler @Inject constructor(objects: ObjectFactory) {
     /**
      * Folder where to put generated resources relative to [Project], such as "src/main/res"
      */
-    val resourcesFolder: DirectoryProperty = objects.directoryProperty()
+    val resourcesDir: DirectoryProperty = objects.directoryProperty()
 }
