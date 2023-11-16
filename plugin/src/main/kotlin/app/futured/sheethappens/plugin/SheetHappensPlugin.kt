@@ -3,7 +3,7 @@ package app.futured.sheethappens.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-private const val TaskName = "localizationUpdate"
+private const val TaskName = "makeSheetHappen"
 
 open class SheetHappensPlugin : Plugin<Project> {
 

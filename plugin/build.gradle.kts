@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "app.futured.sheethappens"
-version = "0.4.0"
+version = "0.5.0"
 
 gradlePlugin {
     website = "https://github.com/futuredapp/sheet-happens"
