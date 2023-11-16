@@ -23,7 +23,7 @@ internal object SheetEntryAccumulator {
 
         for (index in sheetEntries.indices) {
             val sheetEntry = sheetEntries[index]
-            val nextSheetEntry = sheetEntries.getOrNull(index)
+            val nextSheetEntry = sheetEntries.getOrNull(index + 1)
 
             when (sheetEntry) {
                 is SheetEntry.Section -> commentsAccumulator += sheetEntry.comment
@@ -68,14 +68,14 @@ internal object SheetEntryAccumulator {
             if (pluralAccumulator != null) {
                 if (nextSheetEntry !is SheetEntry.PluralResource) {
                     // Finish accumulation because next element is not plural, or is end of list
-                    xmlEntries += pluralAccumulator
+                    xmlEntries += pluralAccumulator.copy()
                     pluralAccumulator = null
                     continue
                 }
 
                 if (nextSheetEntry.items[locale]?.key != pluralAccumulator.key) {
                     // Finish accumulation because next element is plural but with different key
-                    xmlEntries += pluralAccumulator
+                    xmlEntries += pluralAccumulator.copy()
                     pluralAccumulator = null
                     continue
                 }
