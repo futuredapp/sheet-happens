@@ -72,7 +72,7 @@ private fun XmlWriter.writeStringResource(name: String, value: String) {
 private fun XmlWriter.writePluralResource(name: String, pluralBuilder: XmlWriter.() -> Unit) {
     writeStartElement("plural", mapOf("name" to name))
     pluralBuilder()
-    writeEndElement()
+    writeEndElement(lineBreak = true)
 }
 
 private fun XmlWriter.writePluralResourceItem(quantityModifier: String, value: String) {

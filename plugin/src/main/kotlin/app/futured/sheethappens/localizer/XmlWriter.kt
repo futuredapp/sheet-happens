@@ -41,6 +41,7 @@ internal class XmlWriter(outputStream: OutputStream) {
     fun writeEndElement(lineBreak: Boolean = false) {
         if (lineBreak) {
             writer.newLine()
+            writer.append(INDENT.repeat(tags.count() - 1))
         }
         writer.append("</${tags.pop()}>")
     }
