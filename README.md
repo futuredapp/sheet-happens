@@ -1,10 +1,10 @@
-# Sheet Happens!
+# Sheet Happens! 🦄
 
 Sheet Happens is Gradle plugin that lets you localize your Android / KMP application using Google Spreadsheets.
 
 ## Features
 - Generates Android string resources from Google Spreadsheets
-- Compatible with Android and Kotlin Multiplatform ([moko-resources](https://github.com/icerockdev/moko-resources))
+- Compatible with Android and Kotlin Multiplatform ([moko-resources](https://github.com/icerockdev/moko-resources)) resources format
 - Flexible configuration options
 - Can be applied to multiple modules separately (useful for splitting translations per feature module)
 
@@ -15,7 +15,6 @@ Make sure you have Gradle Plugin Portal in your repositories:
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        ...
     }
 }
 ```
