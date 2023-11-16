@@ -1,11 +1,11 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.gradle.pluginPublish)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.gradle.pluginPublish)
 }
 
 group = "app.futured.sheethappens"
-version = "0.5.2"
+version = "0.5.3"
 
 gradlePlugin {
     website = "https://github.com/futuredapp/sheet-happens"
