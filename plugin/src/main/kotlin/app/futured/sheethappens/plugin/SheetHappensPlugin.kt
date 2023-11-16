@@ -20,6 +20,7 @@ open class SheetHappensPlugin : Plugin<Project> {
             task.resourcesDir.set(extension.resourcesLayout.resourcesDir)
             task.stringsFileName.set(extension.resourcesLayout.stringsFileName)
             task.pluralsFileName.set(extension.resourcesLayout.pluralsFileName)
+            task.splitResources.set(extension.resourcesLayout.splitResources)
         }
     }
 }

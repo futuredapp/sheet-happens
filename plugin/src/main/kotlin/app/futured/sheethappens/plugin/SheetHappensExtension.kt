@@ -65,6 +65,8 @@ open class SheetLayoutHandler @Inject constructor(objects: ObjectFactory) {
 
     /**
      * Column name which contains section headers.
+     *
+     * Optional, defaults to "section".
      */
     val sectionColumnName: Property<String> = objects.property(String::class.java)
 
@@ -100,11 +102,23 @@ open class ResourcesLayoutHandler @Inject constructor(objects: ObjectFactory) {
 
     /**
      * Name of file where string resources will be generated.
+     *
+     * Optional, defaults to "strings.xml"
      */
     val stringsFileName: Property<String> = objects.property(String::class.java)
 
     /**
-     * Name of file where plural resources will be generated.
+     * Name of file where plural resources will be generated if [splitResources] is `true`.
+     *
+     * Optional, defaults to "plurals.xml"
      */
     val pluralsFileName: Property<String> = objects.property(String::class.java)
+
+    /**
+     * If `true`, all strings and plurals will be generated into separate xml files
+     * instead of a single one.
+     *
+     * Optional, defaults to `false`.
+     */
+    val splitResources: Property<Boolean> = objects.property(Boolean::class.java)
 }

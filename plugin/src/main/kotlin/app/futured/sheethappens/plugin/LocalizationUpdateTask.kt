@@ -67,10 +67,18 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @get:Input
     @get:Option(
         option = "pluralsFileName",
-        description = "Name of file where plural resources will be generated"
+        description = "Name of file where plural resources will be generated if `splitResources` is set to `true`"
     )
     @get:Optional
     abstract val pluralsFileName: Property<String>
+
+    @get:Input
+    @get:Option(
+        option = "splitResources",
+        description = "If `true`, strings and plurals will be generated into two separate files instead of one."
+    )
+    @get:Optional
+    abstract val splitResources: Property<Boolean>
 
     init {
         group = "localization"
@@ -83,6 +91,7 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             .substringBefore(".xml").plus(".xml")
         val pluralsFileName = pluralsFileName.getOrElse("plurals")
             .substringBefore(".xml").plus(".xml")
+        val splitResources = splitResources.getOrElse(false)
 
         val apiResponse = GoogleSpreadsheetsApi().download(
             spreadsheetId = spreadsheetId.get(),
@@ -109,28 +118,33 @@ abstract class LocalizationUpdateTask : DefaultTask() {
 
             val xmlElements = SheetEntryAccumulator.accumulateToXmlElements(sheetEntries, locale)
 
-            if (xmlElements.any { it is XmlElement.PlainResource }) {
-                stringsFile.recreate()
-                ResourcesSerializer.serialize(
-                    xmlElements = xmlElements.filterIsInstance<XmlElement.PlainResource>(),
-                    outputStream = stringsFile.outputStream()
-                )
-            }
-
-            if (xmlElements.any { it is XmlElement.PluralResource }) {
-                pluralsFile.recreate()
-                ResourcesSerializer.serialize(
-                    xmlElements = xmlElements.filterIsInstance<XmlElement.PluralResource>(),
-                    outputStream = pluralsFile.outputStream()
+            if (splitResources) {
+                if (xmlElements.any { it is XmlElement.PlainResource }) {
+                    writeResources(
+                        xmlElements = xmlElements.filterIsInstance<XmlElement.PlainResource>(),
+                        file = stringsFile
+                    )
+                }
+                if (xmlElements.any { it is XmlElement.PluralResource }) {
+                    writeResources(
+                        xmlElements = xmlElements.filterIsInstance<XmlElement.PluralResource>(),
+                        file = pluralsFile
+                    )
+                }
+            } else if (xmlElements.any()) {
+                writeResources(
+                    xmlElements = xmlElements,
+                    file = stringsFile
                 )
             }
         }
     }
-}
 
-private fun File.recreate() {
-    if (exists()) {
-        delete()
+    private fun writeResources(xmlElements: List<XmlElement>, file: File) {
+        if (file.exists()) {
+            file.delete()
+        }
+        file.createNewFile()
+        ResourcesSerializer.serialize(xmlElements, file.outputStream())
     }
-    createNewFile()
 }

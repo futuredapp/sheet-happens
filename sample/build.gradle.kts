@@ -4,7 +4,7 @@ val localProperties = Properties().apply { load(rootProject.file("local.properti
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    id("app.futured.sheethappens") version "0.3.0"
+    alias(libs.plugins.sheetHappens)
 }
 
 // Preventivka
@@ -22,12 +22,13 @@ plugins {
 //
 //    resourcesLayout {
 //        resourcesDir = layout.projectDirectory.dir("src/commonMain/resources/MR/")
+//        splitResources = true
 //    }
 //}
 
 // Muzeum
 sheetHappens {
-    spreadsheetId = "1eq7TTBbJ1PyMfiXYIXKm77o4Zvpus_oErgOF3bH0-A4" // NM
+    spreadsheetId = "1eq7TTBbJ1PyMfiXYIXKm77o4Zvpus_oErgOF3bH0-A4"
     sheetName = "Translations_draft"
     apiKey = localProperties.getProperty("GOOGLE_API_KEY")
 
@@ -40,7 +41,7 @@ sheetHappens {
 
     resourcesLayout {
         resourcesDir = layout.projectDirectory.dir("src/main/res")
-        stringsFileName = "strings_synced"
-        pluralsFileName = "plurals_synced"
+        stringsFileName = "strings_synced.xml"
+        pluralsFileName = "plurals_synced.xml"
     }
 }
