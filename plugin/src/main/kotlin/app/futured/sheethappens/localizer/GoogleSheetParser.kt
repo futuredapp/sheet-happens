@@ -33,24 +33,30 @@ internal object GoogleSheetParser {
         sectionColumn: String?,
         keyColumn: String,
         languageMapping: List<LanguageMapping>
-    ): List<TableColumn> =
-        row
-            .mapIndexed { idx, value ->
-                when {
-                    value == sectionColumn -> TableColumn.Section(index = idx)
-                    value == keyColumn -> TableColumn.Key(index = idx)
-                    languageMapping.any { it.columnName == value } -> {
-                        val mapping = languageMapping.first { it.columnName == value }
-                        TableColumn.Translation(
-                            index = idx,
-                            locale = Locale(mapping.columnName, mapping.subdirectory)
-                        )
-                    }
+    ): List<TableColumn> = buildList {
 
-                    else -> null
-                }
-            }
-            .filterNotNull()
+        // Find section column
+        row.indexOf(sectionColumn)
+            .takeIf { index -> index >= 0 }
+            ?.let { index -> TableColumn.Section(index = index) }
+            ?.also { add(it) }
+
+        // Find key column
+        row.indexOf(keyColumn)
+            .takeIf { index -> index >= 0 }
+            ?.let { index -> TableColumn.Key(index = index) }
+            ?.also { add(it) }
+
+        // Find all language columns
+        languageMapping.forEach { mapping ->
+            row.indexOf(mapping.columnName)
+                .takeIf { index -> index >= 0 }
+                ?.let { index -> TableColumn.Translation(index, mapping.toLocale()) }
+                ?.also { add(it) }
+        }
+    }
+
+    private fun LanguageMapping.toLocale() = Locale(columnName, subdirectory)
 
     private fun parseEntries(rows: List<TableRow>, columns: List<TableColumn>): List<SheetEntry> {
         val sectionColumn = columns.find { it is TableColumn.Section } as? TableColumn.Section
