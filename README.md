@@ -32,7 +32,7 @@ plugins {
 
 ## Usage
 
-### Get ready your Google Spreadsheet
+### Get your Google Spreadsheet ready
 
 1. Get yourself an API key to [Google Sheets API](https://developers.google.com/sheets/api/guides/concepts).
 2. Create a Google Sheet and add your translations in it:
