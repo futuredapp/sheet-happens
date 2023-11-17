@@ -7,41 +7,25 @@ plugins {
     alias(libs.plugins.sheetHappens)
 }
 
-// Preventivka
-//sheetHappens {
-//    spreadsheetId = "1TGTHG0a2HqfGh7VD5_8wh0F7Cljt0HFwaPQTDmAJ8wk"
-//    sheetName = "Sheet1"
-//    apiKey = localProperties.getProperty("GOOGLE_API_KEY")
-//
-//    sheetLayout {
-//        sectionColumnName = "section"
-//        keyColumnName = "key"
-//        languageColumn("EN" to "base")
-//        languageColumn("CZ" to "cs")
-//    }
-//
-//    resourcesLayout {
-//        resourcesDir = layout.projectDirectory.dir("src/commonMain/resources/MR/")
-//        splitResources = true
-//    }
-//}
-
-// Muzeum
 sheetHappens {
-    spreadsheetId = "1eq7TTBbJ1PyMfiXYIXKm77o4Zvpus_oErgOF3bH0-A4"
-    sheetName = "Translations_draft"
-    apiKey = localProperties.getProperty("GOOGLE_API_KEY")
+    spreadsheetId.set("1q5WMvNFEJQts4lWkSTHN5je_BG3Wq6iRZPseN-ZHrNM")
+    sheetName.set("Sheet1")
+    apiKey.set(localProperties.getProperty("GOOGLE_API_KEY"))
 
     sheetLayout {
-        keyColumnName = "key_android"
-        sectionColumnName = "Section"
+        sectionColumnName.set("section") // Optional
+        keyColumnName.set("key")
+
+        // Add language column for each translation
         languageColumn("EN" to "values")
-        languageColumn("CZ" to "values-cs")
-        languageColumn("CZ" to "values-sk")
-        languageColumn("UK" to "values-uk")
+        languageColumn("SK" to "values-sk")
     }
 
     resourcesLayout {
-        resourcesDir = layout.projectDirectory.dir("src/main/res")
+        resourcesDir.set(layout.projectDirectory.dir("src/main/res"))
+
+        splitResources = true // Optional, default `false`
+        stringsFileName = "strings.xml" // Optional, default "strings.xml"
+        pluralsFileName = "plurals.xml" // Optional, default "plurals.xml"
     }
 }
