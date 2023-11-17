@@ -34,7 +34,8 @@ plugins {
 
 ### Get your Google Spreadsheet ready
 
-1. Get yourself an API key to [Google Sheets API](https://developers.google.com/sheets/api/guides/concepts). Please refer [here](GOOGLE_API_KEY.md) for more detailed instructions.
+1. Get yourself an API key to [Google Sheets API](https://developers.google.com/sheets/api/guides/concepts). Please
+   refer [here](GOOGLE_API_KEY.md) for more detailed instructions.
 2. Create a Google Sheet and add your translations in it:
 
 ![](docs/images/spreadsheet-identification.png)
@@ -55,28 +56,28 @@ Use the `sheetHappens` configuration block to configure the plugin, these are al
 
 ```kotlin
 sheetHappens {
-  spreadsheetId.set("Spreadsheet ID, eg. bKGtVRjP-m_HNsiZJNE5qWH3FweSNlRQv4tsM1WkF65J7ZgqB_WWqN")
-  sheetName.set("Sheet name, eg. Sheet1")
-  apiKey.set("API Key ****")
+    spreadsheetId.set("Spreadsheet ID, eg. bKGtVRjP-m_HNsiZJNE5qWH3FweSNlRQv4tsM1WkF65J7ZgqB_WWqN")
+    sheetName.set("Sheet name, eg. Sheet1")
+    apiKey.set("API Key ****")
 
-  sheetLayout {
-    sectionColumnName.set("section") // Optional
-    keyColumnName.set("key")
+    sheetLayout {
+        sectionColumnName.set("section") // Optional
+        keyColumnName.set("key")
 
-    // Add language column for each translation
-    languageColumn("EN" to "values")
-    languageColumn("SK" to "values-sk")
-    // You can reuse existing translation for users with different system language
-    languageColumn("SK" to "values-cs")
-  }
+        // Add language column for each translation
+        languageColumn("EN" to "values")
+        languageColumn("SK" to "values-sk")
+        // You can reuse existing translation for users with different system language
+        languageColumn("SK" to "values-cs")
+    }
 
-  resourcesLayout {
-    resourcesDir.set(layout.projectDirectory.dir("src/main/res"))
+    resourcesLayout {
+        resourcesDir.set(layout.projectDirectory.dir("src/main/res"))
 
-    splitResources = false // Optional, default `false`
-    stringsFileName = "strings.xml" // Optional, default "strings.xml" 
-    pluralsFileName = "plurals.xml" // Optional, default "plurals.xml"
-  }
+        splitResources = false // Optional, default `false`
+        stringsFileName = "strings.xml" // Optional, default "strings.xml" 
+        pluralsFileName = "plurals.xml" // Optional, default "plurals.xml"
+    }
 }
 ```
 
@@ -91,7 +92,8 @@ Property.
 
 If you wish to generate plurals in separate file, you can set `splitResources = true` and plurals will be placed in the
 second file named by `pluralsFileName` property.
-This is required if you want to use plugin with KMP ([moko-resources](https://github.com/icerockdev/moko-resources)) library. 
+This is required if you want to use plugin with KMP ([moko-resources](https://github.com/icerockdev/moko-resources))
+library.
 
 ### Usage
 
@@ -106,8 +108,17 @@ resources for each language column you specified.
 
 All translations can contain string placeholders, such as `%s` or `%1$s`.
 
-To insert a plural, you name a string using `key##{pluralQualifier}` format, such as `plural_days##{one}`, `plural_days##{few}`and so on.
+To insert a plural, you name a string using `key##{pluralQualifier}` format, such
+as `plural_days##{one}`, `plural_days##{few}`and so on.
 All plural strings of the same key must be grouped together in the sheet.
+
+## Sample
+
+The sample project is set up in `:sample` module. You can create your own Google Sheet using instructions above and
+play around.
+
+Also, [here](https://docs.google.com/spreadsheets/d/1q5WMvNFEJQts4lWkSTHN5je_BG3Wq6iRZPseN-ZHrNM/edit?usp=sharing) you
+can take a look at sample Google Spreadsheet.
 
 ## Credits
 

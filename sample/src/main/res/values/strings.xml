@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Welcome Screen -->
+    <string name="welcome">Welcome to my app!</string>
+    <string name="onboarding_button">Let\'s start</string>
+
+    <!-- Home Screen -->
+    <string name="other_string">Hello, %s!</string>
+</resources>
