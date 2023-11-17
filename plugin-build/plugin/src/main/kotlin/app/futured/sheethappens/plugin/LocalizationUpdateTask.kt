@@ -45,21 +45,21 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @get:Input
     @get:Option(
         option = "languageMapping",
-        description = "Mapping of column names to subdirectories for each language in Google Sheet"
+        description = "Mapping of column names to subdirectories for each language in Google Sheet",
     )
     abstract val languageMapping: ListProperty<LanguageMapping>
 
     @get:InputDirectory
     @get:Option(
         option = "resourcesDir",
-        description = "Folder where to generate resources"
+        description = "Folder where to generate resources",
     )
     abstract val resourcesDir: DirectoryProperty
 
     @get:Input
     @get:Option(
         option = "stringsFileName",
-        description = "Name of file where string resources will be generated"
+        description = "Name of file where string resources will be generated",
     )
     @get:Optional
     abstract val stringsFileName: Property<String>
@@ -67,7 +67,7 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @get:Input
     @get:Option(
         option = "pluralsFileName",
-        description = "Name of file where plural resources will be generated if `splitResources` is set to `true`"
+        description = "Name of file where plural resources will be generated if `splitResources` is set to `true`",
     )
     @get:Optional
     abstract val pluralsFileName: Property<String>
@@ -75,7 +75,7 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     @get:Input
     @get:Option(
         option = "splitResources",
-        description = "If `true`, strings and plurals will be generated into two separate files instead of one."
+        description = "If `true`, strings and plurals will be generated into two separate files instead of one.",
     )
     @get:Optional
     abstract val splitResources: Property<Boolean>
@@ -97,13 +97,13 @@ abstract class LocalizationUpdateTask : DefaultTask() {
         val apiResponse = GoogleSpreadsheetsApi().download(
             spreadsheetId = spreadsheetId.get(),
             sheetName = sheetName.get(),
-            apiKey = apiKey.get()
+            apiKey = apiKey.get(),
         )
         val sheetEntries = GoogleSheetParser.parse(
             response = apiResponse,
             sectionColumn = sectionColumnName,
             keyColumn = keyColumnName.get(),
-            languageMapping = languageMapping.get()
+            languageMapping = languageMapping.get(),
         )
         val detectedLocales = sheetEntries
             .filterIsInstance<SheetEntry.Translation>()
@@ -123,19 +123,19 @@ abstract class LocalizationUpdateTask : DefaultTask() {
                 if (xmlElements.any { it is XmlElement.PlainResource }) {
                     writeResources(
                         xmlElements = xmlElements.filterIsInstance<XmlElement.PlainResource>(),
-                        file = stringsFile
+                        file = stringsFile,
                     )
                 }
                 if (xmlElements.any { it is XmlElement.PluralResource }) {
                     writeResources(
                         xmlElements = xmlElements.filterIsInstance<XmlElement.PluralResource>(),
-                        file = pluralsFile
+                        file = pluralsFile,
                     )
                 }
             } else if (xmlElements.any()) {
                 writeResources(
                     xmlElements = xmlElements,
-                    file = stringsFile
+                    file = stringsFile,
                 )
             }
         }

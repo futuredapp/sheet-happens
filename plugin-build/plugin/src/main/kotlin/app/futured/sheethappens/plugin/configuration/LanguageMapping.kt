@@ -10,5 +10,5 @@ import java.io.Serializable
  */
 data class LanguageMapping(
     val columnName: String,
-    val subdirectory: String
+    val subdirectory: String,
 ) : Serializable
