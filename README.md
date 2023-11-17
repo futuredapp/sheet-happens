@@ -124,5 +124,7 @@ can take a look at sample Google Spreadsheet.
 
 This Gradle plugin was inspired by
 Ackee's [Spreadsheet Localizer INTELLIJ IDEA plugin](https://github.com/AckeeCZ/Spreadsheet-Localizer-Plugin) & it is
-fully compatible with their Google Sheet formatting. This plugin improves on this concept
-by giving you more configuration options and ability to run it from command line or CI environment as Gradle task.
+fully compatible with their Google Sheet formatting.
+
+This plugin improves on this concept by giving you more configuration options and ability to run it from command line or
+CI environment as Gradle task.
