@@ -1,6 +1,7 @@
 # Sheet Happens! 🦄
 
-Sheet Happens is Gradle plugin that lets you localize your Android / KMP application using Google Spreadsheets.
+Sheet Happens is Gradle plugin that lets you localize your Android / KMP application by generating XML string resources
+from Google Spreadsheets.
 
 ## Features
 
