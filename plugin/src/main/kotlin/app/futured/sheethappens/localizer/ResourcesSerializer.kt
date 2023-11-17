@@ -13,7 +13,7 @@ internal object ResourcesSerializer {
      */
     fun serialize(
         xmlElements: List<XmlElement>,
-        outputStream: OutputStream
+        outputStream: OutputStream,
     ) {
         XmlWriter(outputStream).document {
             xmlElements.forEach { xmlElement ->

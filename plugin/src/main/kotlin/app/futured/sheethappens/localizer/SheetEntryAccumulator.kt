@@ -32,7 +32,7 @@ internal object SheetEntryAccumulator {
                     xmlEntries += XmlElement.PlainResource(
                         key = translation.key,
                         value = translation.value,
-                        comments = commentsAccumulator.toList()
+                        comments = commentsAccumulator.toList(),
                     )
                     commentsAccumulator.clear()
                 }
@@ -47,10 +47,10 @@ internal object SheetEntryAccumulator {
                             items = listOf(
                                 XmlElement.PluralResource.Item(
                                     translation.value,
-                                    translation.quantityModifier
-                                )
+                                    translation.quantityModifier,
+                                ),
                             ),
-                            comments = commentsAccumulator.toList()
+                            comments = commentsAccumulator.toList(),
                         )
                         commentsAccumulator.clear()
                     } else if (translation.key == pluralAccumulator.key) {
@@ -58,8 +58,8 @@ internal object SheetEntryAccumulator {
                         pluralAccumulator = pluralAccumulator.copy(
                             items = pluralAccumulator.items + XmlElement.PluralResource.Item(
                                 value = translation.value,
-                                quantityModifier = translation.quantityModifier
-                            )
+                                quantityModifier = translation.quantityModifier,
+                            ),
                         )
                     }
                 }

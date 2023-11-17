@@ -19,7 +19,7 @@ internal sealed interface XmlElement {
     data class PlainResource(
         val key: String,
         val value: String,
-        override val comments: List<String> = emptyList()
+        override val comments: List<String> = emptyList(),
     ) : XmlElement
 
     /**
@@ -35,7 +35,7 @@ internal sealed interface XmlElement {
     data class PluralResource(
         val key: String,
         val items: List<Item>,
-        override val comments: List<String> = emptyList()
+        override val comments: List<String> = emptyList(),
     ) : XmlElement {
         data class Item(val value: String, val quantityModifier: String)
     }
