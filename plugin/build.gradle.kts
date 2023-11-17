@@ -4,19 +4,20 @@ plugins {
     alias(libs.plugins.gradle.pluginPublish)
 }
 
-group = "app.futured.sheethappens"
-version = "0.5.5"
+group = property("GROUP").toString()
 
 gradlePlugin {
-    website = "https://github.com/futuredapp/sheet-happens"
-    vcsUrl = "https://github.com/futuredapp/sheet-happens"
+    website = property("WEBSITE").toString()
+    vcsUrl = property("VCS_URL").toString()
 
     plugins {
-        create("sheetHappensPlugin") {
-            id = "app.futured.sheethappens"
-            displayName = "Sheet Happens"
-            description = "Gradle plugin for generating Android / KMP string translations from Google Spreadsheets"
-            implementationClass = "app.futured.sheethappens.plugin.SheetHappensPlugin"
+        create(property("ID").toString()) {
+            id = property("ID").toString()
+            displayName = property("DISPLAY_NAME").toString()
+            description = property("DESCRIPTION").toString()
+            tags = listOf("plugin", "gradle", "localization", "translation", "android", "kmp")
+            implementationClass = property("IMPLEMENTATION_CLASS").toString()
+            version = property("VERSION").toString()
         }
     }
 }
@@ -29,4 +30,18 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.create("setupPublishSecrets") {
+    doLast {
+        val key = System.getenv("GRADLE_PUBLISH_KEY")
+        val secret = System.getenv("GRADLE_PUBLISH_SECRET")
+
+        if (key == null || secret == null) {
+            throw GradleException("gradlePublishKey and/or gradlePublishSecret are not defined environment variables")
+        }
+
+        System.setProperty("gradle.publish.key", key)
+        System.setProperty("gradle.publish.secret", secret)
+    }
 }
