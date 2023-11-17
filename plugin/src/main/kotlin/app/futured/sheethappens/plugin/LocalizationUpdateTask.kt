@@ -81,6 +81,7 @@ abstract class LocalizationUpdateTask : DefaultTask() {
     abstract val splitResources: Property<Boolean>
 
     init {
+        description = "Reads Google Sheet and generates XML string resources"
         group = "localization"
     }
 

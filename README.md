@@ -27,7 +27,7 @@ Then add the plugin to your module-level `build.gradle` or `build.gradle.kts` fi
 
 ```kotlin
 plugins {
-    id("app.futured.sheethappens") version "$latestVersion"
+    id("app.futured.sheethappens") version "0.5.6"
 }
 ```
 
@@ -121,11 +121,24 @@ play around.
 Also, [here](https://docs.google.com/spreadsheets/d/1q5WMvNFEJQts4lWkSTHN5je_BG3Wq6iRZPseN-ZHrNM/edit?usp=sharing) you
 can take a look at sample Google Spreadsheet.
 
+## Contributors
+
+Current maintainer and main contributor is [@matejsemancik](https://github.com/matejsemancik).
+
+For release process, see [RELEASE.md](RELEASE.md)
+
+## Licence
+
+This project is available under MIT license. See [LICENSE file](LICENSE) for more information.
+
 ## Credits
 
 This Gradle plugin was inspired by
 Ackee's [Spreadsheet Localizer INTELLIJ IDEA plugin](https://github.com/AckeeCZ/Spreadsheet-Localizer-Plugin) & it is
 fully compatible with their Google Sheet formatting.
 
-This plugin improves on this concept by giving you more configuration options and ability to run it from command line or
-CI environment as Gradle task.
+This Gradle plugin improves on this concept by giving you more configuration options and ability to run it from command
+line or CI environment as Gradle task.
+
+Various bits and pieces of inspiration were taken from https://github.com/cortinico/kotlin-gradle-plugin-template
+and https://github.com/iurysza/module-graph
