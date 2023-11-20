@@ -27,7 +27,7 @@ Then add the plugin to your module-level `build.gradle` or `build.gradle.kts` fi
 
 ```kotlin
 plugins {
-    id("app.futured.sheethappens") version "0.5.6"
+    id("app.futured.sheethappens") version "0.5.7"
 }
 ```
 
