@@ -15,7 +15,7 @@ gradlePlugin {
             id = property("ID").toString()
             displayName = property("DISPLAY_NAME").toString()
             description = property("DESCRIPTION").toString()
-            tags = listOf("plugin", "gradle", "localization", "translation", "android", "kmp")
+            tags = listOf("localization", "translation", "android", "kmp")
             implementationClass = property("IMPLEMENTATION_CLASS").toString()
             version = property("VERSION").toString()
         }
