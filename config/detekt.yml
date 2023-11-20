@@ -1,0 +1,42 @@
+build:
+  maxIssues: 5
+  excludeCorrectable: false
+
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+  # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
+  excludes: ''
+
+naming:
+  active: true
+  MatchingDeclarationName:
+    active: false
+  FunctionNaming:
+    active: true
+    excludes: ['**/test/**']
+    functionPattern: '[a-z][a-zA-Z0-9]*'
+    excludeClassPattern: '$^'
+
+style:
+  active: true
+  UnusedPrivateMember:
+    active: true
+  MaxLineLength:
+    active: true
+    maxLineLength: 130 # Keep aligned with .editorconfig file to prevent false positives
+  MagicNumber:
+    active: true
+  DestructuringDeclarationWithTooManyEntries:
+    active: true
+
+complexity:
+  LongParameterList:
+    active: true
+  TooManyFunctions:
+    active: true
+    thresholdInInterfaces: 20
+    thresholdInClasses: 20
+  LongMethod:
+    active: true

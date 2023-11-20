@@ -16,9 +16,10 @@ open class SheetHappensExtension @Inject constructor(objects: ObjectFactory) {
 
     companion object {
         internal fun createFor(project: Project): SheetHappensExtension =
-            project.extensions.create(/* name = */ "sheetHappens",/* type = */
-                SheetHappensExtension::class.java,/* ...constructionArguments = */
-                project.objects
+            project.extensions.create(/* name = */
+                "sheetHappens", /* type = */
+                SheetHappensExtension::class.java, /* ...constructionArguments = */
+                project.objects,
             )
     }
 
