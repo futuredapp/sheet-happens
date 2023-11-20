@@ -1,7 +1,12 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.gradle.pluginPublish)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
 }
 
 group = property("GROUP").toString()
@@ -43,5 +48,34 @@ tasks.create("setupPublishSecrets") {
 
         System.setProperty("gradle.publish.key", key)
         System.setProperty("gradle.publish.secret", secret)
+    }
+}
+
+detekt {
+    ignoreFailures = false
+    source.setFrom(files(projectDir))
+    config.setFrom(files("$rootDir/../config/detekt.yml"))
+    buildUponDefaultConfig = true
+}
+
+tasks.withType<Detekt> {
+    reports {
+        sarif.required.set(false)
+        md.required.set(false)
+        txt.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+ktlint {
+    ignoreFailures.set(false)
+    android.set(true)
+    outputToConsole.set(true)
+    reporters {
+        reporter(ReporterType.PLAIN)
+        reporter(ReporterType.CHECKSTYLE)
+    }
+    filter {
+        exclude("**/generated/**")
     }
 }

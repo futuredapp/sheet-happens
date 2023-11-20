@@ -17,7 +17,7 @@ internal object GoogleSheetParser {
         response: SpreadsheetResponse,
         sectionColumn: String?,
         keyColumn: String,
-        languageMapping: List<LanguageMapping>
+        languageMapping: List<LanguageMapping>,
     ): List<SheetEntry> {
         val rows = response.rows
         check(rows.isNotEmpty()) { error("Provided spreadsheet is empty") }
@@ -30,7 +30,7 @@ internal object GoogleSheetParser {
         }
         check(parsedColumns.any { it is TableColumn.Translation }) {
             "Google Sheet does not contain any columns specified in language mapping.\n" +
-                    "Columns specified: ${languageMapping.map { it.columnName }.joinToString()}"
+                "Columns specified: ${languageMapping.map { it.columnName }.joinToString()}"
         }
 
         return parseEntries(rows.drop(1), parsedColumns)
@@ -40,9 +40,8 @@ internal object GoogleSheetParser {
         row: TableRow,
         sectionColumn: String?,
         keyColumn: String,
-        languageMapping: List<LanguageMapping>
+        languageMapping: List<LanguageMapping>,
     ): List<TableColumn> = buildList {
-
         // Find section column
         row.indexOf(sectionColumn)
             .takeIf { index -> index >= 0 }
@@ -88,11 +87,11 @@ internal object GoogleSheetParser {
                                 column.locale to SheetEntry.PluralResource.Item(
                                     key = key.pluralKeyValue(),
                                     quantityModifier = key.pluralKeyModifier(),
-                                    value = columnValue
+                                    value = columnValue,
                                 )
                             }
                             .filterNotNull()
-                            .toMap()
+                            .toMap(),
                     )
                 } else {
                     return@mapNotNull SheetEntry.PlainResource(
@@ -101,11 +100,11 @@ internal object GoogleSheetParser {
                                 val columnValue = row[column] ?: return@map null
                                 column.locale to SheetEntry.PlainResource.Item(
                                     key = key,
-                                    value = columnValue
+                                    value = columnValue,
                                 )
                             }
                             .filterNotNull()
-                            .toMap()
+                            .toMap(),
                     )
                 }
             }

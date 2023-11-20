@@ -16,5 +16,5 @@ internal data class SpreadsheetResponse(
     val majorDimension: String,
 
     @SerialName("values")
-    val rows: List<List<String>>
+    val rows: List<List<String>>,
 )
