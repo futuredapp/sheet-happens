@@ -1,6 +1,14 @@
 package app.futured.sheethappens.localizer
 
-import app.futured.sheethappens.localizer.model.*
+import app.futured.sheethappens.localizer.model.Locale
+import app.futured.sheethappens.localizer.model.SheetEntry
+import app.futured.sheethappens.localizer.model.SpreadsheetResponse
+import app.futured.sheethappens.localizer.model.TableColumn
+import app.futured.sheethappens.localizer.model.TableRow
+import app.futured.sheethappens.localizer.model.get
+import app.futured.sheethappens.localizer.model.isPluralKey
+import app.futured.sheethappens.localizer.model.pluralKeyModifier
+import app.futured.sheethappens.localizer.model.pluralKeyValue
 import app.futured.sheethappens.plugin.configuration.LanguageMapping
 
 internal object GoogleSheetParser {

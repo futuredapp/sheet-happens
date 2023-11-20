@@ -11,7 +11,7 @@ GitHub UI.
 
 #### Before release
 
-1. Update the plugin `VERSION` property in [gradle.properties](gradle.properties) file.
+1. Update the plugin `VERSION` property in [gradle.properties](plugin-build/gradle.properties) file.
 2. Update the plugin version in [README](README.md) file.
 
 CI run specification: [.github/workflows/publish.yml](.github/workflows/publish.yml)
