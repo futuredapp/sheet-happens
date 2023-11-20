@@ -3,8 +3,7 @@ import java.util.*
 val localProperties = Properties().apply { load(rootProject.file("local.properties").inputStream()) }
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.sheetHappens)
+    id("app.futured.sheethappens")
 }
 
 sheetHappens {

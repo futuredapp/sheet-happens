@@ -11,7 +11,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "sheet-happens"
+rootProject.name = "app.futured.sheethappens"
 
-include(":sample")
-includeBuild("plugin-build")
+include(":plugin")
