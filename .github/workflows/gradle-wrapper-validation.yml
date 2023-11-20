@@ -9,7 +9,7 @@ on:
 
 jobs:
   validation:
-    name: Validation
+    name: Gradle Wrapper Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code

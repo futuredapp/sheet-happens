@@ -17,7 +17,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Run check
-        run: ./gradlew check
+        run: ./gradlew --project-dir plugin-build check
       - name: Publish on Plugin Portal
         run: ./gradlew --project-dir plugin-build setupPublishSecrets publishPlugins
         if: success()

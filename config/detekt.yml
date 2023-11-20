@@ -1,5 +1,5 @@
 build:
-  maxIssues: 50
+  maxIssues: 5
   excludeCorrectable: false
 
 config:

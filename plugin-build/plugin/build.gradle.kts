@@ -54,7 +54,7 @@ tasks.create("setupPublishSecrets") {
 detekt {
     ignoreFailures = false
     source.setFrom(files(projectDir))
-    config.setFrom(files("$rootDir/config/detekt.yml"))
+    config.setFrom(files("$rootDir/../config/detekt.yml"))
     buildUponDefaultConfig = true
 }
 
