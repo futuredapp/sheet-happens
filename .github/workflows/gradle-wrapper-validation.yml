@@ -8,11 +8,11 @@ on:
       - '*'
 
 jobs:
-  validation:
+  validate-wrapper:
     name: Gradle Wrapper Validation
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout latest code
+      - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
