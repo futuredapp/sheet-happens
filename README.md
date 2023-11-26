@@ -7,6 +7,9 @@
 [![GitHub License](https://img.shields.io/github/license/futuredapp/sheet-happens?style=flat-square)](LICENSE)
 [![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/app.futured.sheethappens?style=flat-square)](https://plugins.gradle.org/plugin/app.futured.sheethappens)
 
+[![Kotlin Weekly](https://img.shields.io/badge/Kotlin%20Weekly-Issue%20%23382-7774b0?logo=kotlin
+)](https://mailchi.mp/kotlinweekly/kotlin-weekly-382)
+
 Sheet Happens is Gradle plugin that lets you localize your Android / KMP application by generating XML string resources
 from Google Spreadsheets.
 
