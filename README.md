@@ -51,6 +51,9 @@ plugins {
 
 ![](docs/images/spreadsheet-identification.png)
 
+You can use our [Sample Spreadsheet](https://docs.google.com/spreadsheets/d/1q5WMvNFEJQts4lWkSTHN5je_BG3Wq6iRZPseN-ZHrNM/edit?usp=sharing)
+as a template.
+
 Note the following:
 
 - You can find the Spreadsheet ID in the URL and Sheet name at the bottom of the page. You will use them to configure
@@ -127,9 +130,6 @@ All plural strings of the same key must be grouped together in the sheet.
 
 The sample project is set up in `:sample` module. You can create your own Google Sheet using instructions above and
 play around.
-
-Also, [here](https://docs.google.com/spreadsheets/d/1q5WMvNFEJQts4lWkSTHN5je_BG3Wq6iRZPseN-ZHrNM/edit?usp=sharing) you
-can take a look at sample Google Spreadsheet.
 
 ## Contributors
 
