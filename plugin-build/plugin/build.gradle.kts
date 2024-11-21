@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -7,6 +8,7 @@ plugins {
     alias(libs.plugins.gradle.pluginPublish)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.shadow)
 }
 
 group = property("GROUP").toString()
@@ -31,6 +33,19 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
     implementation(libs.kotlinx.serialization.json)
+}
+
+/*
+The kx.serialization dependency might conflict with applying project's serialization dependency on classpath.
+We can shadow the dependency by relocating it to plugin jar.
+
+This mainly solves this runtime crash on some projects when running the LocalizationUpdateTask:
+"class kotlinx.serialization.json.Json$Default cannot be cast to class kotlinx.serialization.json.Json"
+*/
+tasks.withType<ShadowJar>().configureEach {
+    archiveBaseName.set("shadow")
+    archiveClassifier.set("")
+    relocate("kotlinx.serialization", "app.futured.sheethappens.kotlinx.serialization")
 }
 
 tasks.test {
