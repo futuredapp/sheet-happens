@@ -47,6 +47,7 @@ This mainly solves this runtime crash on some projects when running the Localiza
 tasks.withType<ShadowJar>().configureEach {
     archiveBaseName.set("shadow")
     archiveClassifier.set("")
+    isZip64 = true
     relocate("kotlinx.serialization", "app.futured.sheethappens.kotlinx.serialization")
 }
 

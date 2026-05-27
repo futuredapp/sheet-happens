@@ -6,11 +6,6 @@ are [not supported](https://plugins.gradle.org/docs/publish-plugin) by Gradle Pl
 
 ### Release
 
-New release is published automatically when a new tag is created which should be done by creating a new release within
-GitHub UI.
-
-#### Before release
-
-1. Update the plugin `VERSION` property in [gradle.properties](plugin-build/gradle.properties) file.
+New release is published automatically when a new GitHub release is published. The release name is used as the plugin version.
 
 CI run specification: [.github/workflows/publish.yml](.github/workflows/publish.yml)
