@@ -89,6 +89,12 @@ Managed in `/gradle/libs.versions.toml` (version catalog). Plugin metadata (vers
 - Detekt rules defined in `/config/detekt.yml`
 - Use sealed interfaces for type hierarchies; avoid magic numbers
 
+## Git Commit Conventions
+
+- Imperative mood, sentence case, no trailing period (e.g. `Add service account authentication support`)
+- No `Co-Authored-By` or other trailers
+- Keep the subject line concise — describe *what* the commit does, not *why*
+
 ## Release Process
 
 1. Bump `VERSION` in `plugin-build/gradle.properties`
