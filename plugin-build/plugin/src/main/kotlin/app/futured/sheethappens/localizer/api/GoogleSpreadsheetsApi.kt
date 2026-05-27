@@ -13,16 +13,14 @@ internal class GoogleSpreadsheetsApi {
         private const val BaseUrl = "https://sheets.googleapis.com/v4/spreadsheets"
     }
 
-    fun download(spreadsheetId: String, sheetName: String, apiKey: String): SpreadsheetResponse {
-        val url = URL("$BaseUrl/$spreadsheetId/values/$sheetName?key=$apiKey")
+    fun download(spreadsheetId: String, sheetName: String, provider: AccessTokenProvider): SpreadsheetResponse {
+        val url = URL(provider.buildUrl("$BaseUrl/$spreadsheetId/values/$sheetName"))
         val connection = (url.openConnection() as HttpURLConnection).apply {
             requestMethod = "GET"
+            provider.applyHeaders(this)
         }
 
-        val input = BufferedReader(InputStreamReader(connection.inputStream))
-        val response = input.use {
-            it.readText()
-        }
+        val response = BufferedReader(InputStreamReader(connection.inputStream)).use { it.readText() }
 
         return Json.decodeFromString(response)
     }

@@ -33,6 +33,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
     implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.google.auth.bom))
+    implementation(libs.google.auth.oauth2)
 }
 
 /*

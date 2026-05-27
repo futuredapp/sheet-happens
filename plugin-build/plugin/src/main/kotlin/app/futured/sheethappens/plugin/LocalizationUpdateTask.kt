@@ -3,17 +3,24 @@ package app.futured.sheethappens.plugin
 import app.futured.sheethappens.localizer.GoogleSheetParser
 import app.futured.sheethappens.localizer.ResourcesSerializer
 import app.futured.sheethappens.localizer.SheetEntryAccumulator
+import app.futured.sheethappens.localizer.api.AccessTokenProvider
+import app.futured.sheethappens.localizer.api.ApiKeyTokenProvider
 import app.futured.sheethappens.localizer.api.GoogleSpreadsheetsApi
+import app.futured.sheethappens.localizer.api.ServiceAccountTokenProvider
 import app.futured.sheethappens.localizer.model.SheetEntry
 import app.futured.sheethappens.localizer.model.XmlElement
 import app.futured.sheethappens.plugin.configuration.LanguageMapping
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import java.io.File
@@ -31,7 +38,13 @@ abstract class LocalizationUpdateTask : DefaultTask() {
 
     @get:Input
     @get:Option(option = "apiKey", description = "Google Spreadsheets API key for accessing provided sheet")
+    @get:Optional
     abstract val apiKey: Property<String>
+
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.ABSOLUTE)
+    @get:Optional
+    abstract val serviceAccountKeyFile: RegularFileProperty
 
     @get:Input
     @get:Option(option = "sectionColumn", description = "Name of Google Sheet column that contains section headers")
@@ -94,10 +107,20 @@ abstract class LocalizationUpdateTask : DefaultTask() {
             .substringBefore(".xml").plus(".xml")
         val splitResources = splitResources.getOrElse(false)
 
+        val provider: AccessTokenProvider = when {
+            apiKey.isPresent && !serviceAccountKeyFile.isPresent ->
+                ApiKeyTokenProvider(apiKey.get())
+            serviceAccountKeyFile.isPresent && !apiKey.isPresent ->
+                ServiceAccountTokenProvider(serviceAccountKeyFile.get().asFile)
+            else -> error(
+                "Exactly one of 'apiKey' or 'serviceAccountKeyFile' must be configured in sheetHappens { }",
+            )
+        }
+
         val apiResponse = GoogleSpreadsheetsApi().download(
             spreadsheetId = spreadsheetId.get(),
             sheetName = sheetName.get(),
-            apiKey = apiKey.get(),
+            provider = provider,
         )
         val sheetEntries = GoogleSheetParser.parse(
             response = apiResponse,

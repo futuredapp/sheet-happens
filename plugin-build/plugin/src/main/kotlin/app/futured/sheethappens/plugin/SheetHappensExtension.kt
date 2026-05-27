@@ -4,6 +4,7 @@ import app.futured.sheethappens.plugin.configuration.LanguageMapping
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -35,8 +36,20 @@ open class SheetHappensExtension @Inject constructor(objects: ObjectFactory) {
 
     /**
      * API key used for access to Google spreadsheet API.
+     *
+     * Mutually exclusive with [serviceAccountKeyFile]. Exactly one must be configured.
      */
     val apiKey: Property<String> = objects.property(String::class.java)
+
+    /**
+     * Path to a Google service account JSON key file used for authenticating with the Sheets API.
+     *
+     * Use this as an alternative to [apiKey] when the spreadsheet is not public. Grant the service
+     * account viewer access to the spreadsheet, then point this property at the downloaded key file.
+     *
+     * Mutually exclusive with [apiKey]. Exactly one must be configured.
+     */
+    val serviceAccountKeyFile: RegularFileProperty = objects.fileProperty()
 
     /**
      * Used to configure layout of the Sheet which contains translations.
