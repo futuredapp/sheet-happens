@@ -1,9 +1,8 @@
 name: Publish Plugin
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [published]
 
 jobs:
   publish:
@@ -19,5 +18,5 @@ jobs:
       - name: Run check
         run: ./gradlew --project-dir plugin-build check --no-daemon
       - name: Publish on Plugin Portal
-        run: ./gradlew --project-dir plugin-build setupPublishSecrets publishPlugins --no-daemon
+        run: ./gradlew --project-dir plugin-build setupPublishSecrets publishPlugins -PVERSION=${{ github.event.release.tag_name }} --no-daemon
         if: success()

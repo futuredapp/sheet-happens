@@ -14,6 +14,7 @@ open class SheetHappensPlugin : Plugin<Project> {
             task.spreadsheetId.set(extension.spreadsheetId)
             task.sheetName.set(extension.sheetName)
             task.apiKey.set(extension.apiKey)
+            task.serviceAccountKeyFile.set(extension.serviceAccountKeyFile)
             task.sectionColumnName.set(extension.sheetLayout.sectionColumnName)
             task.keyColumnName.set(extension.sheetLayout.keyColumnName)
             task.languageMapping.set(extension.sheetLayout.languageMappings)

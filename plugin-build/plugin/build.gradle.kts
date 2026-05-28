@@ -33,6 +33,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
     implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.google.auth.bom))
+    implementation(libs.google.auth.oauth2)
 }
 
 /*
@@ -45,6 +47,7 @@ This mainly solves this runtime crash on some projects when running the Localiza
 tasks.withType<ShadowJar>().configureEach {
     archiveBaseName.set("shadow")
     archiveClassifier.set("")
+    isZip64 = true
     relocate("kotlinx.serialization", "app.futured.sheethappens.kotlinx.serialization")
 }
 
