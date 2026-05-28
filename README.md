@@ -160,7 +160,7 @@ val localProperties = Properties().apply {
 
 sheetHappens {
     // ...
-    apiKey.set(localProperties.getProperty("sheetHappens.apiKey").orEmpty())
+    apiKey.set(localProperties.getProperty("sheetHappens.apiKey"))
 }
 ```
 

@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides guidance to AI agents when working with code in this repository.
 
@@ -97,5 +97,4 @@ Managed in `/gradle/libs.versions.toml` (version catalog). Plugin metadata (vers
 
 ## Release Process
 
-1. Bump `VERSION` in `plugin-build/gradle.properties`
-2. Create a GitHub release/tag — CI auto-publishes to the Gradle Plugin Portal
+Refer to [RELEASE.md](RELEASE.md)

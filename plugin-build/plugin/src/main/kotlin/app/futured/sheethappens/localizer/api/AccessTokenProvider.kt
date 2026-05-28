@@ -10,6 +10,11 @@ internal interface AccessTokenProvider {
 }
 
 internal class ApiKeyTokenProvider(private val key: String) : AccessTokenProvider {
+
+    init {
+        require(key.isNotBlank()) { "Empty `apiKey` was provided" }
+    }
+
     override fun buildUrl(baseUrl: String) = "$baseUrl?key=$key"
     override fun applyHeaders(connection: HttpURLConnection) = Unit
 }
